@@ -10,7 +10,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\MidtransPaymentController;
+// use App\Http\Controllers\Api\MidtransPaymentController;
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
@@ -58,5 +58,5 @@ Route::middleware('auth')->group(function () {
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
 
-    Route::post('/process-payment', [MidtransPaymentController::class, '__invoke']);
+    // Route::post('/process-payment', [MidtransPaymentController::class, '__invoke']);
 });
