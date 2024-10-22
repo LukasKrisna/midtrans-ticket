@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use \SevenSpan\WhatsApp\Facades\WhatsApp;
 
-class SendQrCodeController extends Controller
+class SendQrisController extends Controller
 {
     /**
      * Handle the incoming request.
@@ -21,10 +21,9 @@ class SendQrCodeController extends Controller
         $imageName = 'qrcodes/' . uniqid() . '.png';
         Storage::disk('public')->put($imageName, $imageContents);
 
-
         $imagePath = asset('storage/' . $imageName);
-        Whatsapp::sendFile($phoneNumber, $imagePath, 'Silahkan melakukan pembayaran QRIS berikut.');
+        $response = WhatsApp::sendMediaMessage($phoneNumber, $imagePath, 'Silahkan melakukan pembayaran QRIS berikut.');
 
-        return response()->json(['message' => 'QR code sent to WhatsApp']);
+        return response()->json(['message' => 'QR code sent to WhatsApp', 'response' => $response]);
     }
 }
