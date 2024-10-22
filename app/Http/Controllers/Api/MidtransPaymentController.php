@@ -16,30 +16,26 @@ class MidtransPaymentController extends Controller
     public function __invoke(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'amount' => 'required|integer',
+            'invoice_number' => 'required',
+            'amount' => 'required',
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'error' => 'Validation error',
-                'messages' => $validator->errors()
-            ], 422);
+            return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $invoiceNumber = 'INV-' . time();
-
         $transaction = Transaction::create([
-            'invoice_number' => $invoiceNumber,
+            'invoice_number' => $request->invoice_number,
             'amount' => $request->amount,
             'status' => 'CREATED',
         ]);
 
         $response = Http::withHeaders([
             'Accept' => 'application/json',
-            'Content-Type' => 'application/json',
+            'Content-Type' => 'application/json'
         ])->withBasicAuth(env('MIDTRANS_SERVER_KEY'), '')
             ->post('https://api.sandbox.midtrans.com/v2/charge', [
-                'payment_type' => 'qris',
+                'payment_type' => 'gopay',
                 'transaction_details' => [
                     'order_id' => $transaction->id,
                     'gross_amount' => $transaction->amount,
@@ -60,7 +56,10 @@ class MidtransPaymentController extends Controller
                 $actionMap[$action['name']] = $action['url'];
             }
 
-            return response()->json(['qr' => $actionMap['generate-qr-code']]);
+            $qrCodeUrl = $actionMap['generate-qr-code'];
+            app(SendQrCodeController::class)->__invoke(new Request(['qr_code_url' => $qrCodeUrl]));
+
+            return response()->json(['qr' => $qrCodeUrl]);
         }
 
         return response()->json(['message' => $response->body()], 500);

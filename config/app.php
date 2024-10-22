@@ -123,4 +123,9 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'aliases' => [
+        // Other aliases
+        'Whatsapp' => \SevenSpan\WhatsApp\Facades\WhatsApp::class,
+    ],
+
 ];
