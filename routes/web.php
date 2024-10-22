@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Api\MidtransPaymentController;
+use App\Http\Controllers\Api\VerifyPaymentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\VerifyCsrfToken;
 
@@ -24,5 +25,6 @@ Route::middleware('auth')->group(function () {
 // });
 
 Route::post('/process-payment', [MidtransPaymentController::class, '__invoke']);
+Route::post('/verify-payment', [VerifyPaymentController::class, '__invoke']);
 
 require __DIR__ . '/auth.php';
