@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 use \SevenSpan\WhatsApp\Facades\WhatsApp;
 
 class SendQrisController extends Controller
@@ -22,7 +23,9 @@ class SendQrisController extends Controller
         Storage::disk('public')->put($imageName, $imageContents);
 
         $imagePath = asset('storage/' . $imageName);
-        $response = WhatsApp::sendMediaMessage($phoneNumber, $imagePath, 'Silahkan melakukan pembayaran QRIS berikut.');
+        $response = WhatsApp::sendMediaMessage($phoneNumber, $imagePath, 'Silahkan melakukan pembayaran QRIS berikut.', env('FROM_PHONE_NUMBER_ID'));
+
+        Log::info('WhatsApp API Response:', $response);
 
         return response()->json(['message' => 'QR code sent to WhatsApp', 'response' => $response]);
     }
