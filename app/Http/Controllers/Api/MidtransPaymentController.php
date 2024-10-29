@@ -66,6 +66,8 @@ class MidtransPaymentController extends Controller
             return response()->json(['qr' => $qrCodeUrl]);
 
             // return response()->json(['qr' => $actionMap['generate-qr-code']]);
+
+            // return view('order.payment', ['qr' => $qrCodeUrl]); // mengubah response menjadi view
         }
 
         return response()->json(['message' => $response->body()], 500);
