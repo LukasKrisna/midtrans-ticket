@@ -63,11 +63,14 @@ class MidtransPaymentController extends Controller
             $qrCodeUrl = $actionMap['generate-qr-code'];
             app(\App\Http\Controllers\Api\SendQrisController::class)->__invoke(new Request(['qr_code_url' => $qrCodeUrl]));
 
-            return response()->json(['qr' => $qrCodeUrl]);
+            // return response()->json(['qr' => $qrCodeUrl]);
 
             // return response()->json(['qr' => $actionMap['generate-qr-code']]);
 
-            // return view('order.payment', ['qr' => $qrCodeUrl]); // mengubah response menjadi view
+            return view('order.process-payment', [
+                'qr' => $qrCodeUrl,
+                'amount' => $request->amount,
+            ]); // mengubah response menjadi view
         }
 
         return response()->json(['message' => $response->body()], 500);
