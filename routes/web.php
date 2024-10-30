@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Api\MidtransPaymentController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Api\VerifyPaymentController;
+use App\Http\Controllers\Api\SendQrisController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\VerifyCsrfToken;
 
@@ -31,4 +32,6 @@ Route::post('/verify-payment', [VerifyPaymentController::class, '__invoke']);
 
 Route::get('/', [OrderController::class, 'create'])->name('order.create');
 Route::post('/order', [OrderController::class, 'store'])->name('order.store');
+
+Route::post('/send-qris', [SendQrisController::class, '__invoke'])->name('send-qris');
 require __DIR__ . '/auth.php';
