@@ -22,19 +22,15 @@ class OrderController extends Controller
             'nomer_whatsapp' => 'required|string|max:15',
             'email' => 'required|string|email|max:255',
             'price_range' => 'required|integer',
+            'NIK' => 'required|string|max:20',
         ]);
 
-        $user = User::updateOrCreate(
-            ['email' => $request->email],
-            [
-                'name' => $request->nama,
-                'alamat' => $request->alamat,
-                'nomer_whatsapp' => $request->nomer_whatsapp,
-            ]
-        );
-
         $order = Order::create([
-            'user_id' => $user->id,
+            'NIK' => $request->NIK,
+            'nama' => $request->nama,
+            'alamat' => $request->alamat,
+            'nomer_whatsapp' => $request->nomer_whatsapp,
+            'email' => $request->email,
             'price_range' => $request->price_range,
         ]);
 
@@ -46,5 +42,10 @@ class OrderController extends Controller
             'order_id' => $order->id,
             'amount' => $request->price_range,
         ]);
+
+        // return redirect()->route('process-payment', [
+        //     'order_id' => $order->id,
+        //     'amount' => $request->price_range,
+        // ]);
     }
 }

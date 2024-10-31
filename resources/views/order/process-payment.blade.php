@@ -22,6 +22,6 @@
 </head>
 <body>
     <h3>Silahkan lakukan pembayaran QRIS sejumlah: Rp {{ number_format($amount, 0, ',', '.') }}</h3>
-    <img src="{{ $qr }}" alt="QRIS for Payment">
+    {{-- <img src="{{ $qr }}" alt="QRIS for Payment"> --}}
 </body>
 </html>

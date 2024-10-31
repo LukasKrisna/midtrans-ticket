@@ -7,6 +7,10 @@
     <form action="{{ route('order.store') }}" method="POST">
         @csrf
         <div>
+            <label for="NIK">NIK:</label>
+            <input type="text" id="NIK" name="NIK" required>
+        </div>
+        <div>
             <label for="nama">Nama:</label>
             <input type="text" id="nama" name="nama" required>
         </div>

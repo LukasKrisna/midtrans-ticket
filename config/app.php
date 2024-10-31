@@ -126,8 +126,6 @@ return [
     'aliases' => [
         // Other aliases
         'Whatsapp' => \SevenSpan\WhatsApp\Facades\WhatsApp::class,
-        'Route' => Illuminate\Support\Facades\Route::class, // Add this line
-        'Auth' => Illuminate\Support\Facades\Auth::class,
     ],
 
 ];

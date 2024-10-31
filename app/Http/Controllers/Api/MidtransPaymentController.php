@@ -16,6 +16,7 @@ class MidtransPaymentController extends Controller
     public function __invoke(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'order_id' => 'required|exists:orders,id',
             'amount' => 'required|integer',
         ]);
 
@@ -29,6 +30,7 @@ class MidtransPaymentController extends Controller
         $invoiceNumber = 'INV-' . time();
 
         $transaction = Transaction::create([
+            'order_id' => $request->order_id,
             'invoice_number' => $invoiceNumber,
             'amount' => $request->amount,
             'status' => 'CREATED',
@@ -61,7 +63,10 @@ class MidtransPaymentController extends Controller
             }
 
             $qrCodeUrl = $actionMap['generate-qr-code'];
-            app(\App\Http\Controllers\Api\SendQrisController::class)->__invoke(new Request(['qr_code_url' => $qrCodeUrl]));
+            app(\App\Http\Controllers\Api\SendQrisController::class)->__invoke(new Request([
+                'qr_code_url' => $qrCodeUrl,
+                'transaction_id' => $transaction->id,
+            ]));
 
             // return response()->json(['qr' => $qrCodeUrl]);
 

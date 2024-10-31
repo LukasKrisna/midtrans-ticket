@@ -26,7 +26,8 @@ class VerifyPaymentController extends Controller
             ], 400);
         }
 
-        $transaction = Transaction::find($request->order_id);
+        // $transaction = Transaction::find($request->order_id);
+        $transaction = Transaction::where('order_id', $orderId)->first();
 
         if ($transaction) {
             $status = 'PENDING';
